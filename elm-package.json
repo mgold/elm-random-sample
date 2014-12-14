@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0",
+    "summary": "Sample, choose, and suffle an array with the Random module",
+    "repository": "https://github.com/mgold/Elm-Random-Sampling.git",
+    "license": "BSD3",
+    "source-directories": [
+        "."
+    ],
+    "exposed-modules": ["Random.Array"],
+    "dependencies": {
+        "elm-lang/core": "1.0.0 <= v < 2.0.0"
+    }
+}
