@@ -1,14 +1,5 @@
 module Random.Array where
 
-import Random
-import Random (Generator, Seed)
-import Array
-import Array (Array)
-
-import Dict
-import List ((::))
-import Trampoline as T
-
 {-|
 
 # Random Sampling of Arrays
@@ -19,6 +10,16 @@ when statisically sound randomness is required.
 @docs sample choose shuffle
 
 -}
+
+import Random
+import Random (Generator, Seed)
+import Array
+import Array (Array)
+
+import Dict
+import List ((::))
+import Trampoline as T
+
 
 {-| Sample with replacement: Produce a randomly selected element of the
 array and the new seed. -}
