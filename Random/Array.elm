@@ -7,7 +7,7 @@ module Random.Array where
 These implementations are good enough for simple games, but should not be used
 when statisically sound randomness is required.
 
-@docs sample choose shuffle
+@docs sample, choose, shuffle
 
 -}
 
