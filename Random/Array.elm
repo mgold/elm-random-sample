@@ -1,4 +1,4 @@
-module Random.Array where
+module Random.Array(sample, choose, shuffle) where
 
 {-|
 
@@ -6,11 +6,12 @@ module Random.Array where
 
 These implementations are thought to be correct as validated by non-rigorous
 tests, and should be fine for games and simulations. Please do not trust them
-when statisic or especially cryptographic randomness is required.
+when statisical or especially cryptographic randomness is required.
 
 For best results, invoke `Random.initialSeed` only once in your program, and
-thread the returned new seeds through. Do not pass the initial seed but rather
-peel off at least one psuedorandom number first.
+thread the returned new seeds through. Ideally your starting seed should be
+uniformly chosen from all 32-bit random integers. If you hard-code a small
+integer, peel off at least one psuedorandom number first.
 
 @docs sample, choose, shuffle
 
@@ -26,8 +27,7 @@ import Trampoline as T
 array and the new seed. -}
 sample : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed)
 sample seed arr =
-    let length = Array.length arr
-        intGen = Random.int 0 (length - 1)
+    let intGen = Random.int 0 (Array.length arr - 1)
         (index, seed') = Random.generate intGen seed
     in (Array.get index arr, seed')
 
@@ -38,16 +38,18 @@ choose : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed, Array.Array a)
 choose seed arr = if arr == Array.empty then (Nothing, seed, arr) else
     let intGen = Random.int 0 (Array.length arr - 1)
         (index, seed') = Random.generate intGen seed
-        arr' = Array.append (Array.slice 0 index arr) (Array.slice (index+1) (Array.length arr) arr)
-    in (Array.get index arr, seed', arr')
+        front = Array.slice 0 index arr
+        back = Array.slice (index+1) (Array.length arr) arr
+    in (Array.get index arr, seed', Array.append front back)
 
--- type alias ShuffleState a = (Random.Seed, List a, Array.Array a)
+-- not exported
+type alias ShuffleState a = (Random.Seed, List a, Array.Array a)
 
 {-| Shuffle the array using the Fisher-Yates algorithm. Takes O(_n_ log _n_)
 time and O(_n_) additional space. -}
 shuffle : Random.Seed -> Array.Array a -> (Array.Array a, Random.Seed)
 shuffle seed arr = if arr == Array.empty then (arr, seed) else
-    let -- helper : ShuffleState a -> T.Trampoline (ShuffleState a)
+    let helper : ShuffleState a -> T.Trampoline (ShuffleState a)
         helper (s, xs, a) = let (m_val, s', a') = choose s a
             in case m_val of
                 Nothing -> T.Done (s, xs, a)
