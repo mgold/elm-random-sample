@@ -16,9 +16,8 @@ start  = 6000
 trials = 10000
 
 runs : List (List Int)
-runs = List.map (\i -> fst <| Random.Array.shuffle (Random.initialSeed i) arr) [start..start+trials]
-        |> List.map Array.toList
-
+runs = List.scanl (\_ (_, seed) -> Random.Array.shuffle seed arr) (Array.empty, Random.initialSeed start) [1..trials]
+        |> List.map (fst >> Array.toList)
 
 type alias Multiset a = Dict.Dict a Int
 multiset : List comparable -> Multiset comparable
