@@ -23,15 +23,15 @@ import Dict
 import List ((::))
 import Trampoline as T
 
-{-| Sample with replacement: Produce a randomly selected element of the
-array and the new seed. Takes O(1) times. -}
+{-| Sample with replacement: produce a randomly selected element of the
+array and the new seed. Takes O(1) time. -}
 sample : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed)
 sample seed arr =
     let intGen = Random.int 0 (Array.length arr - 1)
         (index, seed') = Random.generate intGen seed
     in (Array.get index arr, seed')
 
-{-| Sample without replacement: Produce a randomly selected element of the
+{-| Sample without replacement: produce a randomly selected element of the
 array, the array with that element omitted (shifting all later elements down),
 and the new seed. Takes O(_n_) time. -}
 choose : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed, Array.Array a)
