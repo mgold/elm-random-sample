@@ -11,7 +11,7 @@ when statisical or especially cryptographic randomness is required.
 For best results, invoke `Random.initialSeed` only once in your program, and
 thread the returned new seeds through. Ideally your starting seed should be
 uniformly chosen from all 32-bit random integers. If you hard-code a small
-integer, peel off at least one psuedorandom number first.
+integer, peel off at least one pseudorandom number first.
 
 @docs sample, choose, shuffle
 
