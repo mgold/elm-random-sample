@@ -20,7 +20,6 @@ integer, peel off at least one pseudorandom number first.
 import Random
 import Array
 import Dict
-import List ((::))
 import Trampoline as T
 
 {-| Sample with replacement: produce a randomly selected element of the

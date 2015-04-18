@@ -4,10 +4,9 @@ import Random
 import Text
 import List
 import Dict
-import Maybe (Maybe(..))
-import Graphics.Element (Element, flow, right, down, spacer)
-import Graphics.Collage (toForm, move, collage, group, circle, filled)
-import Color (..)
+import Graphics.Element exposing (Element, flow, right, down, spacer, show)
+import Graphics.Collage exposing (toForm, move, collage, group, circle, filled)
+import Color exposing (..)
 import String
 
 arr = Array.fromList [0..10]
@@ -28,7 +27,7 @@ multiset xs = let incr m_int = case m_int of
               in List.foldl step Dict.empty xs
 
 table : Dict.Dict comparable b -> Element
-table d = let row (k,v) = flow right [Text.asText v, spacer 20 20, Text.asText k]
+table d = let row (k,v) = flow right [show v, spacer 20 20, show k]
           in flow down <| List.map row (Dict.toList d)
 
 grid : Multiset (Int,Int)
@@ -36,17 +35,17 @@ grid = multiset <| List.concatMap (List.indexedMap (,)) runs
 
 grid_viz : Multiset (Int,Int) -> Element
 grid_viz g = let
-    min = List.minimum (Dict.values g) |> toFloat
-    max = List.maximum (Dict.values g) |> toFloat
+    min = List.minimum (Dict.values g) |> Maybe.withDefault -1 |> toFloat
+    max = List.maximum (Dict.values g) |> Maybe.withDefault -1 |> toFloat
     normalize = linear (min, max) (1,0)
     colors = toFloat >> normalize >> color darkCharcoal lightGrey
     forms = g |> Dict.toList |> List.concatMap (\((i,j), v) ->
         [circle 10 |> filled (colors v) |> move (50*toFloat i, 50*toFloat j)
-        , Text.asText v |> toForm |> move (50*toFloat i, -18 + 50*toFloat j)])
+        , show v |> toForm |> move (50*toFloat i, -18 + 50*toFloat j)])
   in collage 600 600 [group forms |> move (-250, -250)]
 
 
-main = flow down[Text.plainText <| """
+main = flow down[show <| """
 This is a visualization of the distribution of the shuffle for arrays. The
 vertical axis shows the starting index of an element; top row is zero. The
 horiztonal axis is the end location of an element. The numbers and shading
