@@ -38,7 +38,9 @@ choose seed arr = if arr == Array.empty then (Nothing, seed, arr) else
     let intGen = Random.int 0 (Array.length arr - 1)
         (index, seed') = Random.generate intGen seed
         front = Array.slice 0 index arr
-        back = Array.slice (index+1) (Array.length arr) arr
+        back = (if index+1 < Array.length arr
+                then Array.slice (index+1) (Array.length arr) arr
+                else Array.empty)
     in (Array.get index arr, seed', Array.append front back)
 
 -- not exported
