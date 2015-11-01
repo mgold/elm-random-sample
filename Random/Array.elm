@@ -9,9 +9,10 @@ tests, and should be fine for games and simulations. Please do not trust them
 when statisical or especially cryptographic randomness is required.
 
 For best results, invoke `Random.initialSeed` only once in your program, and
-thread the returned new seeds through. Ideally your starting seed should be
-uniformly chosen from all 32-bit random integers. If you hard-code a small
-integer, peel off at least one pseudorandom number first.
+thread the returned new seeds through. For a good random seed, evaluate
+`Math.floor(Math.random()*0xFFFFFFFF)` either once and hard-code the result, or
+as the value of `port initialSeed : Int`.
+
 
 @docs sample, choose, shuffle
 
@@ -31,8 +32,8 @@ sample seed arr =
     in (Array.get index arr, seed')
 
 {-| Sample without replacement: produce a randomly selected element of the
-array, the array with that element omitted (shifting all later elements down),
-and the new seed. Takes O(_n_) time. -}
+array, the new seed, and the array with that element omitted (shifting all later
+elements down). -}
 choose : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed, Array.Array a)
 choose seed arr = if Array.isEmpty arr then (Nothing, seed, arr) else
     let lastIndex = Array.length arr - 1
