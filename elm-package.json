@@ -1,6 +1,6 @@
 {
-    "version": "2.0.1",
-    "summary": "Sample, choose, and suffle an array with the Random module",
+    "version": "2.0.2",
+    "summary": "Sample, choose, and shuffle an array with the Random module",
     "repository": "https://github.com/mgold/Elm-Random-Sampling.git",
     "license": "BSD3",
     "source-directories": [
