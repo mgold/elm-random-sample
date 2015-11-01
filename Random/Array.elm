@@ -34,7 +34,7 @@ sample seed arr =
 array, the array with that element omitted (shifting all later elements down),
 and the new seed. Takes O(_n_) time. -}
 choose : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed, Array.Array a)
-choose seed arr = if arr == Array.empty then (Nothing, seed, arr) else
+choose seed arr = if Array.isEmpty arr then (Nothing, seed, arr) else
     let lastIndex = Array.length arr - 1
         intGen = Random.int 0 lastIndex
         (index, seed') = Random.generate intGen seed
@@ -50,7 +50,7 @@ type alias ShuffleState a = (Random.Seed, List a, Array.Array a)
 {-| Shuffle the array using the Fisher-Yates algorithm. Takes O(_n_ log _n_)
 time and O(_n_) additional space. -}
 shuffle : Random.Seed -> Array.Array a -> (Array.Array a, Random.Seed)
-shuffle seed arr = if arr == Array.empty then (arr, seed) else
+shuffle seed arr = if Array.isEmpty arr then (arr, seed) else
     let helper : ShuffleState a -> T.Trampoline (ShuffleState a)
         helper (s, xs, a) = let (m_val, s', a') = choose s a
             in case m_val of
