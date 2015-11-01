@@ -35,12 +35,13 @@ array, the array with that element omitted (shifting all later elements down),
 and the new seed. Takes O(_n_) time. -}
 choose : Random.Seed -> Array.Array a -> (Maybe a, Random.Seed, Array.Array a)
 choose seed arr = if arr == Array.empty then (Nothing, seed, arr) else
-    let intGen = Random.int 0 (Array.length arr - 1)
+    let lastIndex = Array.length arr - 1
+        intGen = Random.int 0 lastIndex
         (index, seed') = Random.generate intGen seed
         front = Array.slice 0 index arr
-        back = (if index+1 < Array.length arr
-                then Array.slice (index+1) (Array.length arr) arr
-                else Array.empty)
+        back = if index == lastIndex -- workaround for #1
+               then Array.empty
+               else Array.slice (index+1) (Array.length arr) arr
     in (Array.get index arr, seed', Array.append front back)
 
 -- not exported
