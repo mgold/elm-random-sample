@@ -1,4 +1,4 @@
-module Random.Array(sample, choose, shuffle) where
+module Random.Array exposing (sample, choose, shuffle)
 
 {-|
 
