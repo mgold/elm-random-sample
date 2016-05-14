@@ -1,6 +1,8 @@
 # Random.Array
 by Max Goldstein
 
+** NOT UPDATED FOR 0.17**, see [elm-random-extra](http://package.elm-lang.org/packages/elm-community/elm-random-extra/latest/Random-Array) for equivalent functions.
+
 Randomized functions on the Array data structure in Elm 0.16. Previously published
 as `Elm-Random-Sampling` for 0.15.
 
